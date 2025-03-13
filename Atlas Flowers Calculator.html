@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atlas Flowers Marketing Spend Calculator</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 20px;
+        }
+        .header {
+            background-color: #225158;
+            padding: 15px;
+            width: 600px;
+            margin: auto;
+            border-radius: 10px 10px 0 0;
+        }
+        .logo {
+            max-width: 150px;
+        }
+        .container {
+            max-width: 600px;
+            background: white;
+            padding: 20px;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: auto;
+        }
+        .slider-container {
+            text-align: left;
+            margin: 10px 0;
+        }
+        input[type='range'] {
+            width: 100%;
+        }
+        .output {
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        .note {
+            font-style: italic;
+            font-size: 12px;
+            margin-top: 10px;
+            color: grey;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="https://helloseed.co.uk/wp-content/themes/seed/assets/images/logos/logo.svg" alt="Seed Logo" class="logo">
+    </div>
+    
+    <div class="container">
+        <h1>Atlas Flowers Marketing Spend Calculator</h1>
+        <p><strong>Daily Costs & Revenue</strong></p>
+        <p style="color: #225158; font-weight: bold;">For Atlas Flowers</p>
+        
+        <div class="slider-container">
+            <label>Google Cost (£): <span id="googleValue">48.68</span></label>
+            <input type="range" id="googleCost" min="0" max="500" step="1" value="48.68" oninput="calculate()">
+        </div>
+        <div class="slider-container">
+            <label>Meta Cost (£): <span id="metaValue">11.37</span></label>
+            <input type="range" id="metaCost" min="0" max="500" step="1" value="11.37" oninput="calculate()">
+        </div>
+        <div class="slider-container">
+            <label>MAds Cost (£): <span id="madsValue">0</span></label>
+            <input type="range" id="madsCost" min="0" max="500" step="1" value="0" oninput="calculate()">
+        </div>
+        <div class="slider-container">
+            <label>MER: <span id="merValue">34.97</span></label>
+            <input type="range" id="mer" min="5" max="50" step="0.1" value="34.97" oninput="calculate()">
+        </div>
+        
+        <div class="output" id="results"></div>
+        
+        <p class="note">This is based on a £175 average order and assumes conversion rates remain static to February 2025 levels.</p>
+    </div>
+
+    <script>
+        function calculate() {
+            let googleCost = parseFloat(document.getElementById('googleCost').value);
+            let metaCost = parseFloat(document.getElementById('metaCost').value);
+            let madsCost = parseFloat(document.getElementById('madsCost').value);
+            let mer = parseFloat(document.getElementById('mer').value);
+            
+            let totalSpend = googleCost + metaCost + madsCost;
+            let salesRevenue = totalSpend * mer;
+            let orders = salesRevenue / 175;
+            let grossProfitMediaSpend = salesRevenue * 0.21 - totalSpend;
+            let netProfit = grossProfitMediaSpend - 160;
+            
+            document.getElementById('googleValue').textContent = googleCost.toFixed(2);
+            document.getElementById('metaValue').textContent = metaCost.toFixed(2);
+            document.getElementById('madsValue').textContent = madsCost.toFixed(2);
+            document.getElementById('merValue').textContent = mer.toFixed(2);
+            
+            document.getElementById('results').innerHTML = `
+                <p>Sales Revenue: £${salesRevenue.toFixed(2)}</p>
+                <p>Orders: ${Math.round(orders)}</p>
+                <p>Gross Profit - Media Spend: £${grossProfitMediaSpend.toFixed(2)}</p>
+                <p>Net Profit: £${netProfit.toFixed(2)}</p>
+            `;
+        }
+
+        window.onload = calculate;
+    </script>
+</body>
+</html>
